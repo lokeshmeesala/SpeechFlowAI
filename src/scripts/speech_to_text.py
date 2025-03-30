@@ -41,5 +41,5 @@ def transcribe_audio(file_path="output.wav"):
     print("Transcription: ", result['text'])
 
 # Record and transcribe
-record_audio("output.wav", duration=5)  # Record for 5 seconds
+record_audio("output.wav", duration=20)  # Record for 5 seconds
 transcribe_audio("output.wav")
