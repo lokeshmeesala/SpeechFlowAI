@@ -1,3 +1,3 @@
-whisper 
+openai-whisper
 pyaudio 
-ffmpeg-python 
+ffmpeg-python

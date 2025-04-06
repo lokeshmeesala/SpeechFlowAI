@@ -37,9 +37,21 @@ def record_audio(output_file="output.wav", duration=5):
 
 # Transcribe recorded audio
 def transcribe_audio(file_path="output.wav"):
-    result = model.transcribe(file_path)
+    initial_prompt = """You are an expert speech therapist. Your goal is to maintain the speech patterns that the user has while you transcribe the audio. In this audio, the user speaks in english. If the user stutters or stammers or takes longs pauses at some words or phrases, add those in the transcript without any corrections. 
+    Examples:
+    1. Repetitions:
+     a. Sound or syllable repetitions: "I-I-I want to go.", "Ba-ba-baby is crying."
+     b. Whole word repetitions: "She she she is my friend."
+    2. Prolongations:
+     a. Stretching out a sound: "Ssssssometimes I feel nervous.", "Mmmmmaybe we should leave."
+    3. Blocks (Silent or Audible Pauses):
+     a. Sudden stops before or during a word: "I want to... (pause)... go.", "He... (tense pause)... left."
+    4. Interjections or Fillers (can be normal or excessive): "Um... I was going to the store." "Like... like... I mean..."
+    """
+    result = model.transcribe(file_path, initial_prompt=initial_prompt)
+    print("Result", result)
     print("Transcription: ", result['text'])
 
 # Record and transcribe
-record_audio("output.wav", duration=20)  # Record for 5 seconds
+# record_audio("output.wav", duration=20)  # Record for 5 seconds
 transcribe_audio("output.wav")
