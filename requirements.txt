@@ -1,3 +1,4 @@
+streamlit
 openai-whisper
 pyaudio 
 ffmpeg-python

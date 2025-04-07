@@ -7,6 +7,7 @@ model = whisper.load_model("base")
 
 # Record audio from the microphone
 def record_audio(output_file="output.wav", duration=5):
+    print("Recording Started.")
     rate = 16000
     chunk = 1024
     channels = 1
@@ -40,10 +41,10 @@ def transcribe_audio(file_path="output.wav"):
     initial_prompt = """You are an expert speech therapist. Your goal is to maintain the speech patterns that the user has while you transcribe the audio. In this audio, the user speaks in english. If the user stutters or stammers or takes longs pauses at some words or phrases, add those in the transcript without any corrections. 
     Examples:
     1. Repetitions:
-     a. Sound or syllable repetitions: "I-I-I want to go.", "Ba-ba-baby is crying."
-     b. Whole word repetitions: "She she she is my friend."
+     a. Sound or syllable repetitions: "<<I-I-I>> want to go.", "<<Ba-ba-baby>> is crying."
+     b. Whole word repetitions: "<<She she she>> is my friend."
     2. Prolongations:
-     a. Stretching out a sound: "Ssssssometimes I feel nervous.", "Mmmmmaybe we should leave."
+     a. Stretching out a sound: "<<Ssssssometimes>> I feel nervous.", "<<Mmmmmaybe>> we should leave."
     3. Blocks (Silent or Audible Pauses):
      a. Sudden stops before or during a word: "I want to... (pause)... go.", "He... (tense pause)... left."
     4. Interjections or Fillers (can be normal or excessive): "Um... I was going to the store." "Like... like... I mean..."
@@ -51,7 +52,8 @@ def transcribe_audio(file_path="output.wav"):
     result = model.transcribe(file_path, initial_prompt=initial_prompt)
     print("Result", result)
     print("Transcription: ", result['text'])
+    return result
 
-# Record and transcribe
-# record_audio("output.wav", duration=20)  # Record for 5 seconds
-transcribe_audio("output.wav")
+# # Record and transcribe
+# record_audio("output.wav", duration=20)
+# transcribe_audio("output.wav")
