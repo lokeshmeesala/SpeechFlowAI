@@ -1,8 +1,8 @@
 import whisper
-import pyaudio
-import wave
-import streamlit as st
-import time
+# import pyaudio
+# import wave
+# import streamlit as st
+# import time
 
 # Load the Whisper model
 model = whisper.load_model("base")
