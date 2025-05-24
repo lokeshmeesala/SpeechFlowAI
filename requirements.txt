@@ -1,7 +1,7 @@
 openai-whisper==20231117
 torch==2.0.1
 ffmpeg-python
-numpy
+numpy<2.0.0
 # pyaudio
 streamlit
 streamlit-audiorecorder
