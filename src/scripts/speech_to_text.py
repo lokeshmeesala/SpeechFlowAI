@@ -8,43 +8,43 @@ import time
 model = whisper.load_model("base")
 
 # Record audio from the microphone
-def record_audio(output_file="output.wav", duration=5):
-    print("Recording Started.")
-    rate = 16000
-    chunk = 1024
-    channels = 1
-    format = pyaudio.paInt16
-    p = pyaudio.PyAudio()
+# def record_audio(output_file="output.wav", duration=5):
+#     print("Recording Started.")
+#     rate = 16000
+#     chunk = 1024
+#     channels = 1
+#     format = pyaudio.paInt16
+#     p = pyaudio.PyAudio()
 
-    stream = p.open(format=format, channels=channels, rate=rate, input=True, frames_per_buffer=chunk)
+#     stream = p.open(format=format, channels=channels, rate=rate, input=True, frames_per_buffer=chunk)
     
-    print(f"Recording for {duration} seconds...")
-    st.info(f"🎙️ Recording for {duration} seconds... Speak clearly into the mic.")
-    progress_bar = st.progress(0)
+#     print(f"Recording for {duration} seconds...")
+#     st.info(f"🎙️ Recording for {duration} seconds... Speak clearly into the mic.")
+#     progress_bar = st.progress(0)
     
-    frames = []
+#     frames = []
     
-    total_chunks = int(rate / chunk * duration)
-    for i in range(0, total_chunks):
-        data = stream.read(chunk)
-        frames.append(data)
-        progress = int((i + 1) / total_chunks * 100)
-        progress_bar.progress(progress)
-        time.sleep(chunk / rate)
+#     total_chunks = int(rate / chunk * duration)
+#     for i in range(0, total_chunks):
+#         data = stream.read(chunk)
+#         frames.append(data)
+#         progress = int((i + 1) / total_chunks * 100)
+#         progress_bar.progress(progress)
+#         time.sleep(chunk / rate)
 
-    st.success("✅ Recording finished.")
+#     st.success("✅ Recording finished.")
     
-    print("Recording finished.")
+#     print("Recording finished.")
     
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
+#     stream.stop_stream()
+#     stream.close()
+#     p.terminate()
 
-    with wave.open(output_file, 'wb') as wf:
-        wf.setnchannels(channels)
-        wf.setsampwidth(p.get_sample_size(format))
-        wf.setframerate(rate)
-        wf.writeframes(b''.join(frames))
+#     with wave.open(output_file, 'wb') as wf:
+#         wf.setnchannels(channels)
+#         wf.setsampwidth(p.get_sample_size(format))
+#         wf.setframerate(rate)
+#         wf.writeframes(b''.join(frames))
 
 # Transcribe recorded audio
 def transcribe_audio(file_path="output.wav"):

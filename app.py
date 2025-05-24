@@ -1,4 +1,5 @@
 import streamlit as st
+from audiorecorder import audiorecorder
 import sys
 import os
 from datetime import datetime
@@ -11,10 +12,9 @@ os.makedirs("transcripts", exist_ok=True)
 sys.path.append(os.path.join(os.path.dirname(__file__), "src", "scripts"))
 
 from llm_wrapper import LLMClient
-from speech_to_text import record_audio, transcribe_audio
+from speech_to_text import transcribe_audio
 
 st.title("🗣️ SpeechFlowAI - Fluency Analysis")
-
 # Initialize session state variables
 if "generate_paragraph" not in st.session_state:
     st.session_state.generate_paragraph = False
@@ -65,7 +65,15 @@ if st.session_state.generate_paragraph:
         average_words_per_sec = 2.5
         paragraph_len = len(st.session_state.paragraph.split())
         tentative_duration = paragraph_len/average_words_per_sec
-        record_audio(output_file=audio_path, duration=tentative_duration)
+        # record_audio(output_file=audio_path, duration=tentative_duration)
+        audio = audiorecorder("Click to record", "Recording...")
+        if len(audio) > 0:
+            st.audio(audio.tobytes(), format="audio/wav")
+
+            # Optionally save the audio to file
+            with open(audio_path, "wb") as f:
+                f.write(audio.tobytes())
+
         # st.success("Recording completed!")
         st.success(f"Recording saved: {audio_path}")
 
