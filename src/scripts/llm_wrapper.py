@@ -23,5 +23,21 @@ class LLMClient:
 
 if __name__ == "__main__":
     client = LLMClient(model="llama2")
-    result = client.generate("You are a speech therapist agent that can analyses users speech and suggest exercises. First give the user a complicated paragraph to read, it should have 'h' 'm' words. Keep it under 60 words.")
+    result = client.generate("""You are a speech therapist agent that helps assess speech fluency. Your task is to generate a paragraph that challenges the user’s fluency, articulation, and rhythm. The paragraph must meet the following conditions:
+
+- Length: Between 30 and 40 words (strictly no more than 40)
+- Content: Include multisyllabic words, natural pausing points, and flowing connected speech
+- Tone: Use realistic and natural language, as seen in clinical assessments like the Rainbow or Grandfather Passage
+- Output: Do NOT include any introductions, explanations, or concluding statements — ONLY the paragraph content
+- Clarity: No lists or markdown formatting — return plain text only
+
+Examples:
+
+1. The highway was hidden behind the hills, humming with heavy morning traffic. Michael hesitated before merging, holding the wheel with both hands as his heart hammered in his chest.
+
+2. She silently slid the silver spoon into the steaming stew, savoring the scent of simmering spices while listening to soft static from the speakers in the corner.
+
+3. Olivia organized an orchestra of octopuses for an outrageous ocean opera. The melody murmured through the massive marina, mesmerizing the murmuring masses on the mossy pier.
+
+Now generate a new paragraph like this.""")
     print("Ollama Response:", result)

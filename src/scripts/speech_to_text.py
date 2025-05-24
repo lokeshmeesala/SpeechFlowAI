@@ -1,6 +1,8 @@
 import whisper
 import pyaudio
 import wave
+import streamlit as st
+import time
 
 # Load the Whisper model
 model = whisper.load_model("base")
@@ -17,12 +19,20 @@ def record_audio(output_file="output.wav", duration=5):
     stream = p.open(format=format, channels=channels, rate=rate, input=True, frames_per_buffer=chunk)
     
     print(f"Recording for {duration} seconds...")
+    st.info(f"🎙️ Recording for {duration} seconds... Speak clearly into the mic.")
+    progress_bar = st.progress(0)
     
     frames = []
     
-    for _ in range(0, int(rate / chunk * duration)):
+    total_chunks = int(rate / chunk * duration)
+    for i in range(0, total_chunks):
         data = stream.read(chunk)
         frames.append(data)
+        progress = int((i + 1) / total_chunks * 100)
+        progress_bar.progress(progress)
+        time.sleep(chunk / rate)
+
+    st.success("✅ Recording finished.")
     
     print("Recording finished.")
     
@@ -49,7 +59,9 @@ def transcribe_audio(file_path="output.wav"):
      a. Sudden stops before or during a word: "I want to... (pause)... go.", "He... (tense pause)... left."
     4. Interjections or Fillers (can be normal or excessive): "Um... I was going to the store." "Like... like... I mean..."
     """
-    result = model.transcribe(file_path, initial_prompt=initial_prompt)
+
+    # initial_prompt = """The user is speaking English with stuttering or disfluent patterns. Transcribe exactly as spoken."""
+    result = model.transcribe(file_path, initial_prompt=initial_prompt, language="en")
     print("Result", result)
     print("Transcription: ", result['text'])
     return result
